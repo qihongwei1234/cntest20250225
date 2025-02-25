@@ -79,23 +79,23 @@
 
         /* 显示内容卡片样式 */
         .info-card {
-            position: fixed;
-            bottom: 120px; /* 提高位置，避免与按钮重叠 */
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(255, 255, 255, 0.1); /* 半透明背景 */
-            backdrop-filter: blur(10px); /* 模糊效果 */
-            border: 1px solid rgba(255, 255, 255, 0.2); /* 细线边框 */
-            border-radius: 10px; /* 圆角 */
-            padding: 15px 20px;
-            font-size: 0.9em;
-            color: #cccccc;
-            text-align: center;
-            opacity: 0; /* 初始透明 */
-            visibility: hidden; /* 初始隐藏 */
-            transition: opacity 0.3s ease, visibility 0.3s ease; /* 平滑过渡效果 */
-            z-index: 10;
-        }
+    position: fixed;
+    bottom: 60px; /* 修改这里，调整卡片距离底部的距离 */
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255, 255, 255, 0.1); /* 半透明背景 */
+    backdrop-filter: blur(10px); /* 模糊效果 */
+    border: 1px solid rgba(255, 255, 255, 0.2); /* 细线边框 */
+    border-radius: 10px; /* 圆角 */
+    padding: 15px 20px;
+    font-size: 0.9em;
+    color: #cccccc;
+    text-align: center;
+    opacity: 0; /* 初始透明 */
+    visibility: hidden; /* 初始隐藏 */
+    transition: opacity 0.3s ease, visibility 0.3s ease; /* 平滑过渡效果 */
+    z-index: 10;
+}
 
         /* 底部版权信息 */
         footer {

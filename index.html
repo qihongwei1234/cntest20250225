@@ -46,8 +46,10 @@
         /* 按钮容器 */
         .button-container {
             display: flex;
-            flex-direction: column; /* 移动端垂直排列按钮 */
-            gap: 20px;
+            flex-direction: column; /* 垂直排列按钮 */
+            align-items: center; /* 水平居中对齐 */
+            gap: 20px; /* 按钮之间的间距 */
+            position: relative; /* 设置为相对定位，作为子元素的参考点 */
             opacity: 0; /* 初始透明 */
             animation: fadeInScale 1.4s ease-in-out forwards; /* 动画效果 */
         }
@@ -75,27 +77,6 @@
             box-shadow: 0 0 20px rgba(255, 255, 255, 0.8); /* 发光效果 */
         }
 
-        /* 小按钮样式 */
-        .info-button {
-            position: fixed;
-            bottom: 60px; /* 提高位置，避免与版权说明重叠 */
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 1.5em;
-            color: #ffffff;
-            background: transparent;
-            border: 2px solid #ffffff; /* 白色细线边框 */
-            border-radius: 50%; /* 圆形边框 */
-            width: 40px; /* 固定大小 */
-            height: 40px; /* 固定大小 */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: opacity 0.3s ease;
-            z-index: 10;
-        }
-
         /* 显示内容卡片样式 */
         .info-card {
             position: fixed;
@@ -112,7 +93,7 @@
             text-align: center;
             opacity: 0; /* 初始透明 */
             visibility: hidden; /* 初始隐藏 */
-            transition: opacity 0.5s ease, visibility 0.5s ease; /* 平滑过渡效果 */
+            transition: opacity 0.3s ease, visibility 0.3s ease; /* 平滑过渡效果 */
             z-index: 10;
         }
 
@@ -205,9 +186,6 @@
         <a href="https://qihongwei1234.github.io/cntestsc1/" class="action-button">综合测分</a>
     </div>
 
-    <!-- 小按钮 -->
-    <button class="info-button" id="infoButton">→</button>
-
     <!-- 显示内容卡片 -->
     <div class="info-card" id="infoCard">
         版本 v 1.0<br>
@@ -296,12 +274,14 @@
         init();
         animate();
 
-        // 显示/隐藏卡片
-        const infoButton = document.getElementById('infoButton');
+        // 显示/隐藏卡片逻辑
         const infoCard = document.getElementById('infoCard');
 
-        infoButton.addEventListener('click', () => {
-            if (infoCard.style.opacity === '1') {
+        let isCardVisible = false; // 标记卡片是否可见
+
+        // 点击页面任意位置显示或隐藏卡片
+        document.addEventListener('click', () => {
+            if (isCardVisible) {
                 // 如果卡片已显示，则隐藏卡片
                 infoCard.style.opacity = '0';
                 infoCard.style.visibility = 'hidden';
@@ -310,6 +290,7 @@
                 infoCard.style.opacity = '1';
                 infoCard.style.visibility = 'visible';
             }
+            isCardVisible = !isCardVisible; // 切换状态
         });
     </script>
 </body>

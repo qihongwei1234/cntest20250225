@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>汉字识读测试系统</title>
+    <title>识文断字</title>
     <style>
         /* 全局样式 */
         body {
@@ -23,21 +23,22 @@
 
         /* 标题样式 */
         h1 {
-            font-size: 3em;
-            font-weight: normal; /* 不加粗 */
+            font-size: 2.5em; /* 移动端适配 */
+            font-weight: bold; /* 加粗 */
             font-family: 'SimHei', 'Arial', sans-serif; /* 使用黑体字 */
             color: #ffffff; /* 白色标题 */
-            margin-bottom: 20px;
+            margin-bottom: 10px;
+            text-align: center; /* 确保标题居中 */
             opacity: 0; /* 初始透明 */
             animation: fadeInUp 1s ease-in-out forwards; /* 动画效果 */
         }
 
         /* 副标题样式 */
         p {
-            font-size: 1.2em;
+            font-size: 1em; /* 移动端适配 */
             margin-bottom: 40px;
             text-align: center;
-            max-width: 600px;
+            max-width: 90%; /* 控制宽度以适应手机屏幕 */
             opacity: 0; /* 初始透明 */
             animation: fadeInUp 1.2s ease-in-out forwards; /* 动画效果 */
         }
@@ -45,6 +46,7 @@
         /* 按钮容器 */
         .button-container {
             display: flex;
+            flex-direction: column; /* 移动端垂直排列按钮 */
             gap: 20px;
             opacity: 0; /* 初始透明 */
             animation: fadeInScale 1.4s ease-in-out forwards; /* 动画效果 */
@@ -73,30 +75,51 @@
             box-shadow: 0 0 20px rgba(255, 255, 255, 0.8); /* 发光效果 */
         }
 
-        /* 按钮的动态波纹效果 */
-        .action-button::before {
-            content: '';
-            position: absolute;
-            top: 50%;
+        /* 小按钮样式 */
+        .info-button {
+            position: fixed;
+            bottom: 60px; /* 提高位置，避免与版权说明重叠 */
             left: 50%;
-            width: 0;
-            height: 0;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            transition: all 0.5s ease;
+            transform: translateX(-50%);
+            font-size: 1.5em;
+            color: #ffffff;
+            background: transparent;
+            border: 2px solid #ffffff; /* 白色细线边框 */
+            border-radius: 50%; /* 圆形边框 */
+            width: 40px; /* 固定大小 */
+            height: 40px; /* 固定大小 */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+            z-index: 10;
         }
 
-        .action-button:hover::before {
-            width: 200px;
-            height: 200px;
-            opacity: 0;
+        /* 显示内容卡片样式 */
+        .info-card {
+            position: fixed;
+            bottom: 120px; /* 提高位置，避免与按钮重叠 */
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.1); /* 半透明背景 */
+            backdrop-filter: blur(10px); /* 模糊效果 */
+            border: 1px solid rgba(255, 255, 255, 0.2); /* 细线边框 */
+            border-radius: 10px; /* 圆角 */
+            padding: 15px 20px;
+            font-size: 0.9em;
+            color: #cccccc;
+            text-align: center;
+            opacity: 0; /* 初始透明 */
+            visibility: hidden; /* 初始隐藏 */
+            transition: opacity 0.5s ease, visibility 0.5s ease; /* 平滑过渡效果 */
+            z-index: 10;
         }
 
         /* 底部版权信息 */
         footer {
             position: fixed;
-            bottom: 20px;
+            bottom: 20px; /* 固定在底部 */
             font-size: 0.9em;
             color: #cccccc; /* 浅灰色文字 */
             opacity: 0; /* 初始透明 */
@@ -144,6 +167,26 @@
             left: 0;
             z-index: -1;
         }
+
+        /* 移动端适配 */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em; /* 减小标题字体大小 */
+            }
+
+            p {
+                font-size: 0.9em; /* 减小副标题字体大小 */
+            }
+
+            .button-container {
+                gap: 15px; /* 减小按钮间距 */
+            }
+
+            .action-button {
+                padding: 12px 25px; /* 减小按钮尺寸 */
+                font-size: 0.9em;
+            }
+        }
     </style>
 </head>
 <body>
@@ -151,10 +194,10 @@
     <canvas id="particles"></canvas>
 
     <!-- 标题 -->
-    <h1>欢迎来到汉字识读测试系统</h1>
+    <h1>识文断字</h1>
 
     <!-- 副标题 -->
-    <p>通过分级练习和综合测分，提升你的汉字识读能力。</p>
+    <p>轻松掌握小学汉字</p>
 
     <!-- 按钮容器 -->
     <div class="button-container">
@@ -162,9 +205,18 @@
         <a href="https://qihongwei1234.github.io/cntestsc1/" class="action-button">综合测分</a>
     </div>
 
+    <!-- 小按钮 -->
+    <button class="info-button" id="infoButton">→</button>
+
+    <!-- 显示内容卡片 -->
+    <div class="info-card" id="infoCard">
+        版本 v 1.0<br>
+        WeChat: 18601368851
+    </div>
+
     <!-- 底部版权信息 -->
     <footer>
-        &copy; 2023 汉字识读测试系统. 版权所有.
+        &copy; 2025 识文断字系统 版权所有.
     </footer>
 
     <!-- 粒子效果脚本 -->
@@ -243,6 +295,22 @@
         // 启动粒子效果
         init();
         animate();
+
+        // 显示/隐藏卡片
+        const infoButton = document.getElementById('infoButton');
+        const infoCard = document.getElementById('infoCard');
+
+        infoButton.addEventListener('click', () => {
+            if (infoCard.style.opacity === '1') {
+                // 如果卡片已显示，则隐藏卡片
+                infoCard.style.opacity = '0';
+                infoCard.style.visibility = 'hidden';
+            } else {
+                // 如果卡片未显示，则显示卡片
+                infoCard.style.opacity = '1';
+                infoCard.style.visibility = 'visible';
+            }
+        });
     </script>
 </body>
 </html>
